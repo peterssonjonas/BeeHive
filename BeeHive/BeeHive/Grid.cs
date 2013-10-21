@@ -100,7 +100,6 @@ namespace BeeHive
             Vector2 mouseWorldPos;
             mouseWorldPos.X = (mouse.X - Camera.centreOfScreen.X) / Camera.zoom + Camera.pos.X;
             mouseWorldPos.Y = (mouse.Y - Camera.centreOfScreen.Y) / Camera.zoom + Camera.pos.Y;
-                // (w.X) = 
 
             int targetCell = 0, counter = 0;
 
@@ -190,6 +189,10 @@ namespace BeeHive
         }
     
 
+        /// <summary>
+        /// Method for setting cells passable
+        /// </summary>
+        /// <param name="n">Indicates the index of the cell in the grid</param>
         void SetCellPassable(int n)
         {
             for (int dir = 0; dir < 6; dir++)
@@ -204,6 +207,10 @@ namespace BeeHive
             cells[n].passable = true;
         }
 
+        /// <summary>
+        /// Method for setting cells unpassable
+        /// </summary>
+        /// <param name="n">Indicates the index of the cell in the grid</param>
         void SetCellUnpassable(int n)
         {
             for (int dir = 0; dir < 6; dir++)
@@ -216,11 +223,14 @@ namespace BeeHive
             }
             cells[n].passable = false;
         }
-
+       
+        /// <summary>
+        /// An algorithm for calculating the shortest path to the exit from each cell.
+        /// Beginning from the exit expanding through all adjacent cells, adding a pointer into the shortest direction, until all cells are visited.
+        /// </summary>
+        /// <returns>Returns true when the shortest path is calculated</returns>
         public bool CalcShortestPath()
         {
-            //TO-DO: En algoritm för att räkna ut kortaste vägen till utgången från varje cell.
-            //Om någon cell som innehåller ingången till världen eller en insekt inte har en väg till utgången returneras false, annars true.
             Queue<int> queue = new Queue<int>();
             bool[] visited = new bool[numCells];
             int current, targetCell;
@@ -257,11 +267,13 @@ namespace BeeHive
             return true;
         }
 
-
+        /// <summary>
+        /// An algorithm for calculating the shortest weighted path through the grid. The weight is represented by a hazardlevel in each cell.
+        /// Starting from the exit calculating the safest path from all adjacent cells to the exit adding a pointer in that direction.
+        /// Uses Dijkstra's algorithm
+        /// </summary>
         public void CalcSafestPath()
         {
-            //TO-DO: En algoritm för att räkna ut den lägst viktade vägen till utgången från varje cell.
-            //Efterson framkomlighet testas i .
             int current = 0, targetCell = 0;
 
             foreach (Cell c in cells)
@@ -309,8 +321,6 @@ namespace BeeHive
 
         public bool CalcGuardPath(int guardCell, int target)
         {
-            //TO-DO: En algoritm för att räkna ut kortaste vägen till utgången från varje cell.
-            //Om någon cell som innehåller ingången till världen eller en insekt inte har en väg till utgången returneras false, annars true.
             Queue<int> queue = new Queue<int>();
             bool[] visited = new bool[numCells];
             int current, targetCell;
@@ -369,7 +379,6 @@ namespace BeeHive
 
            
         }
-
 
         public void DrawTowers(ref SpriteBatch batch)
         {
